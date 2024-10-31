@@ -1,7 +1,12 @@
 import React, { FC } from 'react';
 
+interface Tasktodo {
+  title : string;
+  index : number ;
+  difficulty : number;
+}
 
-interface TasksProps {}
+export interface TasksProps {}
 
 const Tasks: FC<TasksProps> = () => {
   return (

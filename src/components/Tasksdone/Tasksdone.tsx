@@ -3,6 +3,13 @@ import React, { FC } from 'react';
 
 interface TasksdoneProps {}
 
+
+export  interface TaskdoneInterface{
+  title : string;
+  index : number;
+  difficulty : number;
+}
+
 const Tasksdone: FC<TasksdoneProps> = () => {
 
 
