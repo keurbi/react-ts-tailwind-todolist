@@ -14,7 +14,7 @@ const Tasks: FC<TasksProps> = () => {
   const [newTaskDifficulty, setNewTaskDifficulty] = useState(1);
 
   const addTask = () => {
-    if (newTaskTitle.trim()) {
+    if (newTaskTitle.trim()) { //trim pour enlever espaces autour et empêcher ajout vide
       const newTask: TasktodoInterface = {
         title: newTaskTitle,
         index: Tasktodo.length,
@@ -43,12 +43,12 @@ const Tasks: FC<TasksProps> = () => {
         />
         <select 
           value={newTaskDifficulty}
-          onChange={(e) => setNewTaskDifficulty(Number(e.target.value))}
+          onChange={(e) => setNewTaskDifficulty(Number(e.target.value))}// number() utilisé pour passer de str à nber
           className='w-3/12 bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500'
         >
-          <option value="1">Facile</option>
-          <option value="2">Moyen</option>
-          <option value="3">Difficile</option>
+          <option value="1">Facile 🟢</option>
+          <option value="2">Moyen 🟠</option>
+          <option value="3">Difficile 🔴</option>
         </select>
         <button 
           onClick={addTask}
@@ -62,16 +62,14 @@ const Tasks: FC<TasksProps> = () => {
             rounded 
             focus:outline-none 
             focus:shadow-outline
-          '
-        >
-          OK
+          '>OK
         </button>
       </div>
       <div className='h-[85%] mt-4 bg-slate-100 rounded-lg p-2 overflow-auto'>
         {Tasktodo.map((task, index) => (
           <div 
             key={index} 
-            className='flex justify-between items-center bg-white m-2 p-2 rounded'>
+            className='flex justify-between items-center bg-white m-2 p-2 rounded h-[30px] w-[95%]'>
             <span>{task.title}</span>
             <span>
               {task.difficulty === 1 && '🟢 Facile'}
