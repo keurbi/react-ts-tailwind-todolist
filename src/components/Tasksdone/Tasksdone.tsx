@@ -1,4 +1,4 @@
-import React, { FC } from 'react';
+import React, { FC, useState } from 'react';
 
 
 interface TasksdoneProps {}
@@ -12,6 +12,7 @@ export  interface TaskdoneInterface{
 
 const Tasksdone: FC<TasksdoneProps> = () => {
 
+  const [Taskdone, setTaskdone] = useState([]);
 
   return (
     <div className='w-6/12 h-full flex-nowrap bg-white rounded-lg border-transparent p-4 flex flex-col'>
