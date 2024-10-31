@@ -28,6 +28,10 @@ const Tasks: FC<TasksProps> = () => {
     }
   };
 
+  const completeTask = () => {
+
+  }
+
   return (
     <div className='w-6/12 h-full flex-nowrap bg-white rounded-lg border-transparent p-4 flex flex-col'>
       <div className='flex gap-4 items-center h-[15%]'>
@@ -65,11 +69,11 @@ const Tasks: FC<TasksProps> = () => {
           '>OK
         </button>
       </div>
-      <div className='h-[85%] mt-4 bg-slate-100 rounded-lg p-2 overflow-auto'>
+      <div className='h-[85%] w-[100%] mt-4 bg-slate-100 rounded-lg p-2 overflow-auto flex flex-col align-center'>
         {Tasktodo.map((task, index) => (
           <div 
             key={index} 
-            className='flex justify-between items-center bg-white m-2 p-2 rounded h-[30px] w-[95%]'>
+            className='flex justify-between items-center bg-white my-2 p-2 rounded h-[30px] w-[100%]'>
             <span>{task.title}</span>
             <span>
               {task.difficulty === 1 && '🟢 Facile'}
