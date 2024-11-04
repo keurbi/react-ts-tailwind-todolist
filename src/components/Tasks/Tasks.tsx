@@ -7,9 +7,11 @@ interface TasktodoInterface {
   difficulty: number;
 }
 
-export interface TasksProps {}
+export interface TasksProps {
+  onTransmit: (task: string) => any
+}
 
-const Tasks: FC<TasksProps> = () => {
+const Tasks: FC<TasksProps> = (onTransmit) => {
   const [Tasktodo, setTasktodo] = useState<TasktodoInterface[]>([]);
   const [newTaskTitle, setNewTaskTitle] = useState('');
   const [newTaskDifficulty, setNewTaskDifficulty] = useState(1);
@@ -29,9 +31,11 @@ const Tasks: FC<TasksProps> = () => {
     }
   };
 
-  const completeTask = (indexDelete : any) => {
-    const updatedTasks = [...Tasktodo]
-    updatedTasks.splice(indexDelete,1);
+  const completeTask = (indexDelete: number) => {
+    const updatedTasks = [...Tasktodo];
+    const taskToTransmit = Tasktodo[indexDelete];
+    onTransmit.onTransmit(taskToTransmit.title);
+    updatedTasks.splice(indexDelete, 1);
     setTasktodo(updatedTasks);
   }
 
@@ -73,7 +77,7 @@ const Tasks: FC<TasksProps> = () => {
         </button>
       </div>
       <div className='h-[85%] w-[100%] mt-4 bg-slate-100 rounded-lg p-2 overflow-auto flex flex-col align-center'>
-        {Tasktodo.map((task, index) => (
+        {Tasktodo.length > 0 && Tasktodo.map((task, index) => (
           <div 
             key={index} 
             className='flex justify-between items-center bg-white my-2 p-2 rounded h-[30px] w-[100%]'>

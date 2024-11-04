@@ -7,10 +7,13 @@ import TaskdoneInterface from '../Tasksdone/Tasksdone';
 interface ListProps {}
 
 const List: FC<ListProps> = () => {
-  const [dataTransmitted, setdataTransmitted] = useState("");
+  const [dataTransmitting, setdataTransmitting] = useState<{ title: string; difficulty: number }>({ title: "", difficulty: 0 });
+  const [dataTransmitted, setdataTransmitted] = useState<{ title: string; difficulty: number }[]>([]);
 
-  const transmitTasks = (task: string) => {
-    setdataTransmitted(task);
+  const transmittingTasks = (task: string) => {
+    const [title, difficultyStr] = task.split(',');
+    const difficulty = parseInt(difficultyStr, 10);
+    setdataTransmitting({ title, difficulty });
   };
 
   return (
@@ -20,8 +23,8 @@ const List: FC<ListProps> = () => {
         <span className='animate-pulse font-bold'>NOW</span>
       </h1>
       <div className='h-[90%] flex flex-row justify-center gap-4 p-2'>
-        <Tasks />
-        <Tasksdone />
+        <Tasks onTransmit={transmittingTasks} />
+        <Tasksdone transmittedTask={dataTransmitting} />
       </div>
     </div>
   );

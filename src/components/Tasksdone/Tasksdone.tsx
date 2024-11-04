@@ -10,9 +10,21 @@ export  interface TaskdoneInterface{
   difficulty : number;
 }
 
-const Tasksdone: FC<TasksdoneProps> = () => {
+export interface TasksProps {
+  transmittedTask: 
+  {title : string,
+  difficulty : number
+  };
+}
 
-  const [Taskdone, setTaskdone] = useState([]);
+const Tasksdone: FC<TasksProps> = ({transmittedTask}) => {
+  const [Taskdone, setTaskdone] = useState<TaskdoneInterface[]>([]);
+
+  React.useEffect(() => {
+    if (transmittedTask) {
+      setTaskdone(prevTasks => [...prevTasks, { title: transmittedTask.title, index: prevTasks.length, difficulty: transmittedTask.difficulty }] as TaskdoneInterface[]);
+    }
+  }, [transmittedTask]);
 
   return (
     <div className='w-6/12 h-full flex-nowrap bg-white rounded-lg border-transparent p-4 flex flex-col'>
@@ -27,10 +39,20 @@ const Tasksdone: FC<TasksdoneProps> = () => {
         />
       </div>
       <div className='h-[85%] mt-4 bg-slate-100 rounded-lg p-2'>
-        contenu tasks done
+      {Taskdone.length > 0 && Taskdone.map((task, index) => (
+          <div 
+            key={index} 
+            className='flex justify-between items-center bg-white my-2 p-2 rounded h-[30px] w-[100%]'>
+            <span>{task.title}</span>
+            <span>
+              {task.difficulty === 1 && '🟢 Facile'}
+              {task.difficulty === 2 && '🟠 Moyen'}
+              {task.difficulty === 3 && '🔴 Difficile'}
+            </span>
+          </div>
+        ))}
       </div>
     </div>
   );
 };
-
 export default Tasksdone;
