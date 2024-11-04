@@ -55,7 +55,7 @@ const Tasksdone: FC<TasksProps> = ({transmittedTask}) => {
       </div>
 
       <div className='h-[85%] mt-4 flex flex-col'>
-        <div className='h-[80%] bg-slate-100 rounded-lg p-2'>
+        <div className='h-[83%] bg-slate-100 rounded-lg p-2'>
           {currentTasks.map((task, index) => (
             <motion.div 
               key={index}
@@ -73,7 +73,7 @@ const Tasksdone: FC<TasksProps> = ({transmittedTask}) => {
           ))}
         </div>
 
-        <div className="h-[20%] flex justify-center items-center gap-6">
+        <div className="h-[17%] flex justify-center items-center gap-6 pt-5">
           <button 
             onClick={() => setCurrentPage(prev => Math.max(prev - 1, 1))}
             disabled={currentPage === 1}
