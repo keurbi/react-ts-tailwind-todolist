@@ -5,11 +5,12 @@ import React, { FC, useState } from 'react';
 interface TasksdoneProps {}
 
 
-export  interface TaskdoneInterface{
-  title : string;
-  index : number;
-  difficulty : number;
+export interface TaskdoneInterface {
+  title: string;
+  index: number; // enregistre un timestamp
+  difficulty: number;
 }
+
 
 export interface TasksProps {
   transmittedTask: 
@@ -20,27 +21,15 @@ export interface TasksProps {
 
 const Tasksdone: FC<TasksProps> = ({transmittedTask}) => {
   const [Taskdone, setTaskdone] = useState<TaskdoneInterface[]>([]);
-
   React.useEffect(() => {
-    if (transmittedTask && transmittedTask.title) {
-      const newTask = { 
+    if (transmittedTask) {
+      setTaskdone(prevTasks => [...prevTasks, { 
         title: transmittedTask.title, 
-        index: Taskdone.length, 
+        index: Date.now(), // Utilisation timestap plutot que longueur du tableau
         difficulty: transmittedTask.difficulty 
-      };
-      
-      // vérifie si la tache existe déjà
-      const taskExists = Taskdone.some(task => 
-        task.title === newTask.title && 
-        task.difficulty === newTask.difficulty
-      );
-      
-      if (!taskExists) {
-        setTaskdone(prevTasks => [...prevTasks, newTask]);
-      }
+      }]);
     }
   }, [transmittedTask]);
-
   return (
     <div className='w-6/12 h-full flex-nowrap bg-white rounded-lg border-transparent p-4 flex flex-col'>
       <div className='flex gap-4 items-center h-[15%]'>
@@ -53,13 +42,13 @@ const Tasksdone: FC<TasksProps> = ({transmittedTask}) => {
           id="task"
         />
       </div>
-      <div className='h-[85%] mt-4 bg-slate-100 rounded-lg p-2'>
+      <div className='h-[85%] mt-4 bg-slate-100 rounded-lg p-2 overflow-auto'>
       {Taskdone.length > 0 && Taskdone.map((task, index) => (
           <motion.div 
             key={index}
             initial={{ x: -300, opacity: 0 }}
             animate={{ x: 0, opacity: 0.8 }}
-            transition={{ duration: 0.4 }}
+            transition={{ duration: 0.3 }}
             className='flex justify-between items-center bg-white my-2 p-2 rounded h-[30px] w-[100%]'>
             <span>{task.title}</span>
             <span>
