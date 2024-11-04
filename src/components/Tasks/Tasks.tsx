@@ -1,4 +1,5 @@
 import React, { FC, useState } from 'react';
+import { MouseEventHandler, MouseEvent } from 'react';
 
 interface TasktodoInterface {
   title: string;
@@ -28,8 +29,10 @@ const Tasks: FC<TasksProps> = () => {
     }
   };
 
-  const completeTask = () => {
-
+  const completeTask = (indexDelete : any) => {
+    const updatedTasks = [...Tasktodo]
+    updatedTasks.splice(indexDelete,1);
+    setTasktodo(updatedTasks);
   }
 
   return (
@@ -79,6 +82,11 @@ const Tasks: FC<TasksProps> = () => {
               {task.difficulty === 1 && '🟢 Facile'}
               {task.difficulty === 2 && '🟠 Moyen'}
               {task.difficulty === 3 && '🔴 Difficile'}
+            </span>
+            <span>
+              <button onClick={(e)=>completeTask(index) } type="button" className="bg-green-700 hover:bg-green-800 text-white text-sm py-1 px-2 rounded">
+                 Done
+              </button>
             </span>
           </div>
         ))}
