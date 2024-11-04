@@ -1,16 +1,13 @@
 import { motion } from 'framer-motion';
 import React, { FC, useState } from 'react';
 
-
 interface TasksdoneProps {}
-
 
 export interface TaskdoneInterface {
   title: string;
   index: number; // enregistre un timestamp
   difficulty: number;
 }
-
 
 export interface TasksProps {
   transmittedTask: 
@@ -22,10 +19,10 @@ export interface TasksProps {
 const Tasksdone: FC<TasksProps> = ({transmittedTask}) => {
   const [Taskdone, setTaskdone] = useState<TaskdoneInterface[]>([]);
   React.useEffect(() => {
-    if (transmittedTask) {
+    if (transmittedTask && transmittedTask.title.trim()) {
       setTaskdone(prevTasks => [...prevTasks, { 
         title: transmittedTask.title, 
-        index: Date.now(), // Utilisation timestap plutot que longueur du tableau
+        index: Date.now(),
         difficulty: transmittedTask.difficulty 
       }]);
     }
