@@ -10,10 +10,8 @@ const List: FC<ListProps> = () => {
   const [dataTransmitting, setdataTransmitting] = useState<{ title: string; difficulty: number }>({ title: "", difficulty: 0 });
   const [dataTransmitted, setdataTransmitted] = useState<{ title: string; difficulty: number }[]>([]);
 
-  const transmittingTasks = (task: string) => {
-    const [title, difficultyStr] = task.split(',');
-    const difficulty = parseInt(difficultyStr, 10);
-    setdataTransmitting({ title, difficulty });
+  const transmittingTasks = (task: { title: string; difficulty: number }) => {
+    setdataTransmitting(task);
   };
 
   return (
@@ -28,5 +26,4 @@ const List: FC<ListProps> = () => {
       </div>
     </div>
   );
-};
-export default List;
+};export default List;

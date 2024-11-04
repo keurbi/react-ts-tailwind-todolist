@@ -21,8 +21,22 @@ const Tasksdone: FC<TasksProps> = ({transmittedTask}) => {
   const [Taskdone, setTaskdone] = useState<TaskdoneInterface[]>([]);
 
   React.useEffect(() => {
-    if (transmittedTask) {
-      setTaskdone(prevTasks => [...prevTasks, { title: transmittedTask.title, index: prevTasks.length, difficulty: transmittedTask.difficulty }] as TaskdoneInterface[]);
+    if (transmittedTask && transmittedTask.title) {
+      const newTask = { 
+        title: transmittedTask.title, 
+        index: Taskdone.length, 
+        difficulty: transmittedTask.difficulty 
+      };
+      
+      // vérifie si la tache existe déjà
+      const taskExists = Taskdone.some(task => 
+        task.title === newTask.title && 
+        task.difficulty === newTask.difficulty
+      );
+      
+      if (!taskExists) {
+        setTaskdone(prevTasks => [...prevTasks, newTask]);
+      }
     }
   }, [transmittedTask]);
 

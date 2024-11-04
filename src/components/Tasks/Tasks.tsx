@@ -8,7 +8,7 @@ interface TasktodoInterface {
 }
 
 export interface TasksProps {
-  onTransmit: (task: string) => any
+  onTransmit: (task: { title: string, difficulty: number }) => void
 }
 
 const Tasks: FC<TasksProps> = (onTransmit) => {
@@ -31,13 +31,16 @@ const Tasks: FC<TasksProps> = (onTransmit) => {
     }
   };
 
-  const completeTask = (indexDelete: number) => {
-    const updatedTasks = [...Tasktodo];
-    const taskToTransmit = Tasktodo[indexDelete];
-    onTransmit.onTransmit(taskToTransmit.title);
-    updatedTasks.splice(indexDelete, 1);
-    setTasktodo(updatedTasks);
-  }
+const completeTask = (indexDelete: number) => {
+  const updatedTasks = [...Tasktodo];
+  const taskToTransmit = Tasktodo[indexDelete];
+  onTransmit.onTransmit({
+      title: taskToTransmit.title,
+      difficulty: taskToTransmit.difficulty
+  });
+  updatedTasks.splice(indexDelete, 1);
+  setTasktodo(updatedTasks);
+}
 
   return (
     <div className='w-6/12 h-full flex-nowrap bg-white rounded-lg border-transparent p-4 flex flex-col'>
