@@ -18,6 +18,19 @@ export interface TasksProps {
 
 const Tasksdone: FC<TasksProps> = ({transmittedTask}) => {
   const [Taskdone, setTaskdone] = useState<TaskdoneInterface[]>([]);
+  const [currentPage, setCurrentPage] = useState(1);
+  const tasksPerPage = 5;
+
+  // tâches à afficher
+  const indexOfLastTask = currentPage * tasksPerPage;
+  // Exemple: page2 * 5tâches = 10 
+
+  const indexOfFirstTask = indexOfLastTask - tasksPerPage;
+  // on commence à la 5ème tâche
+
+  const currentTasks = Taskdone.slice(indexOfFirstTask, indexOfLastTask);
+  // si Taskdone = [0,1,2,3,4,5,6,7,8,9] slice(5,10) donnera [5,6,7,8,9]  
+
   React.useEffect(() => {
     if (transmittedTask && transmittedTask.title.trim()) {
       setTaskdone(prevTasks => [...prevTasks, { 
@@ -40,7 +53,7 @@ const Tasksdone: FC<TasksProps> = ({transmittedTask}) => {
         />
       </div>
       <div className='h-[85%] mt-4 bg-slate-100 rounded-lg p-2 overflow-auto'>
-      {Taskdone.length > 0 && Taskdone.map((task, index) => (
+        {currentTasks.map((task, index) => (
           <motion.div 
             key={index}
             initial={{ x: -300, opacity: 0 }}
@@ -55,6 +68,25 @@ const Tasksdone: FC<TasksProps> = ({transmittedTask}) => {
             </span>
           </motion.div>
         ))}
+        <div className="flex justify-center items-center gap-6 mt-6 pb-4">
+          <button 
+            onClick={() => setCurrentPage(prev => Math.max(prev - 1, 1))}
+            disabled={currentPage === 1}
+            className="bg-blue-500 hover:bg-blue-600 text-white font-semibold px-6 py-2 rounded-lg shadow-md transition-colors duration-200 disabled:bg-gray-300 disabled:cursor-not-allowed"
+          >
+            Précédent
+          </button>
+          <span className="text-lg font-medium text-gray-700">
+            Page {currentPage} sur {Math.ceil(Taskdone.length / tasksPerPage)}
+          </span>
+          <button 
+            onClick={() => setCurrentPage(prev => prev + 1)}
+            disabled={indexOfLastTask >= Taskdone.length}
+            className="bg-blue-500 hover:bg-blue-600 text-white font-semibold px-6 py-2 rounded-lg shadow-md transition-colors duration-200 disabled:bg-gray-300 disabled:cursor-not-allowed"
+          >
+            Suivant
+          </button>
+        </div>
       </div>
     </div>
   );
