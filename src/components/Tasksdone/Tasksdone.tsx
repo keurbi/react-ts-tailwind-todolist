@@ -1,3 +1,4 @@
+import { motion } from 'framer-motion';
 import React, { FC, useState } from 'react';
 
 
@@ -54,8 +55,11 @@ const Tasksdone: FC<TasksProps> = ({transmittedTask}) => {
       </div>
       <div className='h-[85%] mt-4 bg-slate-100 rounded-lg p-2'>
       {Taskdone.length > 0 && Taskdone.map((task, index) => (
-          <div 
-            key={index} 
+          <motion.div 
+            key={index}
+            initial={{ x: -300, opacity: 0 }}
+            animate={{ x: 0, opacity: 0.8 }}
+            transition={{ duration: 0.4 }}
             className='flex justify-between items-center bg-white my-2 p-2 rounded h-[30px] w-[100%]'>
             <span>{task.title}</span>
             <span>
@@ -63,7 +67,7 @@ const Tasksdone: FC<TasksProps> = ({transmittedTask}) => {
               {task.difficulty === 2 && '🟠 Moyen'}
               {task.difficulty === 3 && '🔴 Difficile'}
             </span>
-          </div>
+          </motion.div>
         ))}
       </div>
     </div>

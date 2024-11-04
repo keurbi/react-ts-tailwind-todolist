@@ -1,3 +1,4 @@
+import { motion } from 'framer-motion';
 import React, { FC, useState } from 'react';
 import { MouseEventHandler, MouseEvent } from 'react';
 
@@ -81,9 +82,15 @@ const completeTask = (indexDelete: number) => {
       </div>
       <div className='h-[85%] w-[100%] mt-4 bg-slate-100 rounded-lg p-2 overflow-auto flex flex-col align-center'>
         {Tasktodo.length > 0 && Tasktodo.map((task, index) => (
-          <div 
+          <motion.div 
             key={index} 
-            className='flex justify-between items-center bg-white my-2 p-2 rounded h-[30px] w-[100%]'>
+            className='flex justify-between items-center bg-white my-2 p-2 rounded h-[30px] w-[100%]'
+            exit={{ 
+              x: 300,
+              opacity: 0,
+              transition: { duration: 0.5 }
+            }}
+          >
             <span>{task.title}</span>
             <span>
               {task.difficulty === 1 && '🟢 Facile'}
@@ -91,11 +98,11 @@ const completeTask = (indexDelete: number) => {
               {task.difficulty === 3 && '🔴 Difficile'}
             </span>
             <span>
-              <button onClick={(e)=>completeTask(index) } type="button" className="bg-green-700 hover:bg-green-800 text-white text-sm py-1 px-2 rounded">
+              <button onClick={(e)=>completeTask(index) } type="button" className="bg-green-700 hover:bg-green-800 text-white text-sm py-0.9 px-2 rounded">
                  Done
               </button>
             </span>
-          </div>
+          </motion.div>
         ))}
       </div>
     </div>
