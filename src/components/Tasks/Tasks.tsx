@@ -32,16 +32,22 @@ const Tasks: FC<TasksProps> = (onTransmit) => {
     }
   };
 
-const completeTask = (indexDelete: number) => {
-  const updatedTasks = [...Tasktodo];
-  const taskToTransmit = Tasktodo[indexDelete];
-  onTransmit.onTransmit({
-      title: taskToTransmit.title,
-      difficulty: taskToTransmit.difficulty
-  });
-  updatedTasks.splice(indexDelete, 1);
-  setTasktodo(updatedTasks);
-}
+const completeTask = (displayIndex: number) => {
+    // calcule le vrai index
+    const realIndex = indexOfFirstTask + displayIndex;
+    const updatedTasks = [...Tasktodo];
+    const taskToTransmit = Tasktodo[realIndex];
+    
+    onTransmit.onTransmit(taskToTransmit);
+    updatedTasks.splice(realIndex, 1);
+    setTasktodo(updatedTasks);
+} 
+  const [currentPage, setCurrentPage] = useState(1);
+  const tasksPerPage = 5;
+
+  const indexOfLastTask = currentPage * tasksPerPage;
+  const indexOfFirstTask = indexOfLastTask - tasksPerPage;
+  const currentTasks = Tasktodo.slice(indexOfFirstTask, indexOfLastTask);
 
   return (
     <div className='w-6/12 h-full flex-nowrap bg-white rounded-lg border-transparent p-4 flex flex-col'>
@@ -80,33 +86,48 @@ const completeTask = (indexDelete: number) => {
           '>OK
         </button>
       </div>
-      <div className='h-[85%] w-[100%] mt-4 bg-slate-100 rounded-lg p-2 overflow-auto flex flex-col align-center'>
-        {Tasktodo.length > 0 && Tasktodo.map((task, index) => (
-          <motion.div 
-            key={index} 
-            className='flex justify-between items-center bg-white my-2 p-2 rounded h-[30px] w-[100%]'
-            exit={{ 
-              x: 300,
-              opacity: 0,
-              transition: { duration: 0.5 }
-            }}
-          >
-            <span>{task.title}</span>
-            <span>
-              {task.difficulty === 1 && '🟢 Facile'}
-              {task.difficulty === 2 && '🟠 Moyen'}
-              {task.difficulty === 3 && '🔴 Difficile'}
-            </span>
-            <span>
-              <button onClick={(e)=>completeTask(index) } type="button" className="bg-green-700 hover:bg-green-800 text-white text-sm py-0.9 px-2 rounded">
+      <div className='h-[85%] mt-4 flex flex-col'>
+        <div className='h-[80%] bg-slate-100 rounded-lg p-2'>
+          {currentTasks.map((task, index) => (
+            <div 
+              key={index} 
+              className='flex justify-between items-center bg-white my-2 p-2 rounded h-[30px] w-[100%]'>
+              <span>{task.title}</span>
+              <span>
+                {task.difficulty === 1 && '🟢 Facile'}
+                {task.difficulty === 2 && '🟠 Moyen'}
+                {task.difficulty === 3 && '🔴 Difficile'}
+              </span>
+              <span>
+              <button onClick={() => completeTask(index)} type="button" className="bg-green-700 hover:bg-green-800 text-white text-sm py-1 px-2 rounded">
                  Done
-              </button>
-            </span>
-          </motion.div>
-        ))}
+               </button>
+              </span>
+            </div>
+          ))}
+        </div>
+        <div className="h-[20%] flex justify-center items-center gap-6">
+          <button 
+            onClick={() => setCurrentPage(prev => Math.max(prev - 1, 1))}
+            disabled={currentPage === 1}
+            className="bg-blue-500 hover:bg-blue-600 text-white font-semibold px-6 py-2 rounded-lg shadow-md transition-colors duration-200 disabled:bg-gray-300 disabled:cursor-not-allowed"
+          >
+            Précédent
+          </button>
+          <span className="text-lg font-medium text-gray-700">
+            Page {currentPage} sur {Math.ceil(Tasktodo.length / tasksPerPage)}
+          </span>
+          <button 
+            onClick={() => setCurrentPage(prev => prev + 1)}
+            disabled={indexOfLastTask >= Tasktodo.length}
+            className="bg-blue-500 hover:bg-blue-600 text-white font-semibold px-6 py-2 rounded-lg shadow-md transition-colors duration-200 disabled:bg-gray-300 disabled:cursor-not-allowed"
+          >
+            Suivant
+          </button>
+        </div>
       </div>
     </div>
   );
-};
+}
 
 export default Tasks;

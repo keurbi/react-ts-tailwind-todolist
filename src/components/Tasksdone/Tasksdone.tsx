@@ -42,6 +42,7 @@ const Tasksdone: FC<TasksProps> = ({transmittedTask}) => {
   }, [transmittedTask]);
   return (
     <div className='w-6/12 h-full flex-nowrap bg-white rounded-lg border-transparent p-4 flex flex-col'>
+
       <div className='flex gap-4 items-center h-[15%]'>
         <h2 className='text-2xl underline w-4/12 text-center'>Tasks done</h2>
         <input 
@@ -52,23 +53,27 @@ const Tasksdone: FC<TasksProps> = ({transmittedTask}) => {
           id="task"
         />
       </div>
-      <div className='h-[85%] mt-4 bg-slate-100 rounded-lg p-2 overflow-auto'>
-        {currentTasks.map((task, index) => (
-          <motion.div 
-            key={index}
-            initial={{ x: -300, opacity: 0 }}
-            animate={{ x: 0, opacity: 0.8 }}
-            transition={{ duration: 0.3 }}
-            className='flex justify-between items-center bg-white my-2 p-2 rounded h-[30px] w-[100%]'>
-            <span>{task.title}</span>
-            <span>
-              {task.difficulty === 1 && '🟢 Facile'}
-              {task.difficulty === 2 && '🟠 Moyen'}
-              {task.difficulty === 3 && '🔴 Difficile'}
-            </span>
-          </motion.div>
-        ))}
-        <div className="flex justify-center items-center gap-6 mt-6 pb-4">
+
+      <div className='h-[85%] mt-4 flex flex-col'>
+        <div className='h-[80%] bg-slate-100 rounded-lg p-2'>
+          {currentTasks.map((task, index) => (
+            <motion.div 
+              key={index}
+              initial={{ x: -300, opacity: 0 }}
+              animate={{ x: 0, opacity: 0.8 }}
+              transition={{ duration: 0.3 }}
+              className='flex justify-between items-center bg-white my-2 p-2 rounded h-[35px] w-[100%]'>
+              <span>{task.title}</span>
+              <span>
+                {task.difficulty === 1 && '🟢 Facile'}
+                {task.difficulty === 2 && '🟠 Moyen'}
+                {task.difficulty === 3 && '🔴 Difficile'}
+              </span>
+            </motion.div>
+          ))}
+        </div>
+
+        <div className="h-[20%] flex justify-center items-center gap-6">
           <button 
             onClick={() => setCurrentPage(prev => Math.max(prev - 1, 1))}
             disabled={currentPage === 1}
