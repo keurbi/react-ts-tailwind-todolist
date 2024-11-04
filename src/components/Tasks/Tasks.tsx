@@ -74,8 +74,8 @@ const completeTask = (displayIndex: number) => {
         <button 
           onClick={addTask}
           className='
-            bg-blue-500 
-            hover:bg-blue-700 
+            bg-blue-400 
+            hover:bg-blue-500 
             text-white 
             font-bold 
             py-2 
@@ -110,7 +110,7 @@ const completeTask = (displayIndex: number) => {
           <button 
             onClick={() => setCurrentPage(prev => Math.max(prev - 1, 1))}
             disabled={currentPage === 1}
-            className="bg-blue-500 hover:bg-blue-600 text-white font-semibold px-6 py-2 rounded-lg shadow-md transition-colors duration-200 disabled:bg-gray-300 disabled:cursor-not-allowed"
+            className="bg-blue-500 hover:bg-blue-600 text-white font-semibold  px-4 py-1.5 rounded-lg shadow-md transition-colors duration-200 disabled:bg-gray-300 disabled:cursor-not-allowed"
           >
             Précédent
           </button>
@@ -120,7 +120,7 @@ const completeTask = (displayIndex: number) => {
           <button 
             onClick={() => setCurrentPage(prev => prev + 1)}
             disabled={indexOfLastTask >= Tasktodo.length}
-            className="bg-blue-500 hover:bg-blue-600 text-white font-semibold px-6 py-2 rounded-lg shadow-md transition-colors duration-200 disabled:bg-gray-300 disabled:cursor-not-allowed"
+            className="bg-blue-400 hover:bg-blue-500 text-white font-semibold  px-4 py-1.5 rounded-lg shadow-md transition-colors duration-200 disabled:bg-gray-300 disabled:cursor-not-allowed"
           >
             Suivant
           </button>
