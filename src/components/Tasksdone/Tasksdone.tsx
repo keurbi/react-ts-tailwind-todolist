@@ -32,6 +32,7 @@ const Tasksdone: FC<TasksProps> = ({transmittedTask}) => {
   // si Taskdone = [0,1,2,3,4,5,6,7,8,9] slice(5,10) donnera [5,6,7,8,9]  
 
   React.useEffect(() => {
+    // vérif pour pas ajouter une tâche vide
     if (transmittedTask && transmittedTask.title.trim()) {
       setTaskdone(prevTasks => [...prevTasks, { 
         title: transmittedTask.title, 

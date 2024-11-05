@@ -38,10 +38,11 @@ const completeTask = (displayIndex: number) => {
     const updatedTasks = [...Tasktodo];
     const taskToTransmit = Tasktodo[realIndex];
 
+    // transmission de la tâche
     onTransmit.onTransmit(taskToTransmit);
     updatedTasks.splice(realIndex, 1);
     setTasktodo(updatedTasks);
-} 
+}
   const [currentPage, setCurrentPage] = useState(1);
   const tasksPerPage = 5;
 
