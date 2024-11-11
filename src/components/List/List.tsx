@@ -5,18 +5,29 @@ import Header from "../Header/Header";
 
 interface ListProps {}
 
+interface Task {
+  title : string,
+  difficulty : number,
+  status : string
+}
+
 const List: FC<ListProps> = () => {
 
   const tasksStates = ["todo","pending","done"];
-  const [tasks, setTasks] = useState([[],[],[]]);
+  const [tasks, setTasks] = useState<Task[][]>([[],[],[]]);
 
   const [title,setTitle] = useState("");
   const [difficulty, setDifficulty] = useState(0);
   const [status, setStatus] = useState();
 
   const addTask = useCallback((taskData : {title :string, difficulty : number, status : string})=>{
-    newTask = {title : ""}
-  },[]);
+    const statusIndex = tasksStates.indexOf(taskData.status);
+    setTasks(prevTasks => {
+      const newTasks = [...prevTasks];
+      newTasks[statusIndex] = [...newTasks[statusIndex], taskData];
+      return newTasks
+    })
+  },[tasks]);
 
 
   return (
