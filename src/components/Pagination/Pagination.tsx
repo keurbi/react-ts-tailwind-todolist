@@ -2,19 +2,14 @@ import React, { FC, useState } from 'react';
 
 
 interface PaginationProps {
-  Tasktodo : [],
-  Taskdone: [],
+  currentPage: number;
+  totalItems: number;
+  itemsPerPage: number;
+  onPageChange: Function;
 }
 
-const Pagination: FC<PaginationProps> = (Taskdone, Tasktodo) => {
 
-  const [currentPage, setCurrentPage] = useState(1);
-  const tasksPerPage = 5;
-
-  const task = Taskdone | Tasktodo
-  const indexOfLastTask = currentPage * tasksPerPage;
-  const indexOfFirstTask = indexOfLastTask - tasksPerPage;
-  const currentTasks = Tasktodo.slice(indexOfFirstTask, indexOfLastTask);
+const Pagination: FC<PaginationProps> = (currentPage, totalItems, itemsPerPage, onPageChange) => {
 
   return (
   <div className="h-[17%] flex justify-center items-center gap-6 pt-5">
@@ -26,7 +21,7 @@ const Pagination: FC<PaginationProps> = (Taskdone, Tasktodo) => {
     Précédent
   </button>
   <span className="text-lg font-medium text-gray-700">
-    Page {currentPage} sur {Math.ceil(task.length / tasksPerPage)}
+    Page {currentPage} sur {Math.ceil(Tasktodisplay.length / tasksPerPage)}
   </span>
   <button 
     onClick={() => setCurrentPage(prev => prev + 1)}

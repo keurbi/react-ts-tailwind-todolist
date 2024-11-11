@@ -1,6 +1,7 @@
-import { motion } from 'framer-motion';
-import React, { FC, useState } from 'react';
-import DoneHeader from '../DoneHeader/DoneHeader';
+import { motion } from "framer-motion";
+import React, { FC, useState } from "react";
+import DoneHeader from "../DoneHeader/DoneHeader";
+import DisplayTasks from "../DisplayTasks/DisplayTasks";
 
 interface TasksdoneProps {}
 
@@ -11,31 +12,31 @@ export interface TaskdoneInterface {
 }
 
 export interface TasksProps {
-  transmittedTask: 
-  {title : string,
-  difficulty : number
-  },
-  Pagination : React.FC,
+  transmittedTask: { title: string; difficulty: number };
+  Pagination: React.FC;
 }
 
-const Tasksdone: FC<TasksProps> = ({transmittedTask}, Pagination) => {
-  const [Taskdone, setTaskdone] = useState<TaskdoneInterface[]>([]); 
+const Tasksdone: FC<TasksProps> = ({ transmittedTask, Pagination }) => {
+  const [Taskdone, setTaskdone] = useState<TaskdoneInterface[]>([]);
 
   React.useEffect(() => {
     // vérif pour pas ajouter une tâche vide
     if (transmittedTask && transmittedTask.title.trim()) {
-      setTaskdone(prevTasks => [...prevTasks, { 
-        title: transmittedTask.title, 
-        index: Date.now(),
-        difficulty: transmittedTask.difficulty 
-      }]);
+      setTaskdone((prevTasks) => [
+        ...prevTasks,
+        {
+          title: transmittedTask.title,
+          index: Date.now(),
+          difficulty: transmittedTask.difficulty,
+        },
+      ]);
     }
   }, [transmittedTask]);
   return (
-    <div className='w-6/12 h-full flex-nowrap bg-white rounded-lg border-transparent p-4 flex flex-col'>
-      <DoneHeader/>
-        <Pagination Tasks={Taskdone} />
+    <div className="w-6/12 h-full flex-nowrap bg-white rounded-lg border-transparent p-4 flex flex-col">
+      <DoneHeader />
+      <DisplayTasks Tasks={Taskdone.map(task => [task.title, task.index, task.difficulty])} />
+      <Pagination />
     </div>
   );
-};
-export default Tasksdone;
+};export default Tasksdone;

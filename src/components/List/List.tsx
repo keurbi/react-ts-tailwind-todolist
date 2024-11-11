@@ -24,10 +24,11 @@ const List: FC<ListProps> = () => {
         <span className="animate-pulse font-bold">NOW</span>
       </h1>
       <div className="h-[90%] flex flex-row justify-center gap-4 p-2">
-        <Tasks onTransmit={transmittingTasks} pagination={Pagination} />
-        <Tasksdone transmittedTask={dataTransmitting} />
+        <Tasks onTransmit={transmittingTasks} Pagination={Pagination} />
+        <Tasksdone transmittedTask={dataTransmitting} Pagination={Pagination} />
       </div>
     </div>
   );
 };
+
 export default List;

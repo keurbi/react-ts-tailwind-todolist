@@ -1,11 +1,22 @@
 import React, { FC } from 'react';
 
+interface DisplayTasksProps {
+  Tasks: {
+    title: string
+    index: number
+    difficulty: number
+  }[]
+}
 
-interface DisplayTasksProps {}
-
-const DisplayTasks: FC<DisplayTasksProps> = () => (
+const DisplayTasks: FC<DisplayTasksProps> = ({ Tasks }) => (
   <div>
-    DisplayTasks Component
+    {Tasks.map((task, index) => (
+      <div key={index}>
+        {task.title}
+        {task.difficulty}
+        {task.index}
+      </div>
+    ))}
   </div>
 );
 
