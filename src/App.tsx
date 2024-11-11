@@ -1,8 +1,9 @@
-import React from 'react';
+import React, { useState } from 'react';
 import logo from './logo.svg';
 import './App.css';
 import List from './components/List/List';
 import tailwind from "tailwindcss";
+import { useScroll } from 'framer-motion';
 
 function App() {
   return (

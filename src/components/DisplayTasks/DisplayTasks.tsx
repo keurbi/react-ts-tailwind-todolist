@@ -2,9 +2,9 @@ import React, { FC } from "react";
 
 interface DisplayTasksProps {
   Tasks: {
-    title: string;
-    index: number;
-    difficulty: number;
+    title : string;
+    index : number;
+    difficulty : number;
   }[];
   onTaskComplete: (value : number) => void;
 }

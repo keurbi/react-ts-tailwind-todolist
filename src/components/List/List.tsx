@@ -1,21 +1,13 @@
-import React, { FC, useState } from "react";
-import Tasks from "../Tasks/Tasks";
-import Tasksdone from "../Tasksdone/Tasksdone";
-import TasktodoInterface from "../Tasks/Tasks";
-import TaskdoneInterface from "../Tasksdone/Tasksdone";
+import React, { FC, Fragment, useState } from "react";
 import Pagination from "../Pagination/Pagination";
+import DisplayTasks from "../DisplayTasks/DisplayTasks";
 
 interface ListProps {}
 
 const List: FC<ListProps> = () => {
-  const [dataTransmitting, setdataTransmitting] = useState<{
-    title: string;
-    difficulty: number;
-  }>({ title: "", difficulty: 0 });
 
-  const transmittingTasks = (task: { title: string; difficulty: number }) => {
-    setdataTransmitting(task);
-  };
+  const [tasks, setTasks] = useState([[],[],[]])
+
 
   return (
     <div className="container flex flex-col h-2/4 bg-slate-300 rounded-lg border-2 border-transparent shadow-[0_35px_60px_-15px_rgba(2,2,0,0.3)] p-2">
@@ -24,11 +16,8 @@ const List: FC<ListProps> = () => {
         <span className="animate-pulse font-bold">NOW</span>
       </h1>
       <div className="h-[90%] flex flex-row justify-center gap-4 p-2">
-        <Tasks onTransmit={transmittingTasks} Pagination={Pagination} />
-        <Tasksdone transmittedTask={dataTransmitting} Pagination={Pagination} />
+       {/* <DisplayTasks/> */}
       </div>
     </div>
   );
-};
-
-export default List;
+};export default List;
