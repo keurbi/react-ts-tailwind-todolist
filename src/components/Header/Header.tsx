@@ -12,16 +12,16 @@ type Inputs = {
 }
 
 const Header: FC<HeaderProps> = ({ addTask }) => {
-  const {register, handleSubmit} = useForm<Inputs>();
+  const {register, handleSubmit, reset} = useForm<Inputs>();
 
   return (
     <div className="flex gap-4 items-center h-[15%]">
       <h2 className="text-xl underline w-2/12 text-center">Manage your tasks</h2>
       <form 
               onSubmit={handleSubmit((data) => {
-                addTask(data)
-              })}
-        className="flex gap-4 items-center w-full"
+                addTask(data);
+                reset();
+              })}className="flex gap-4 items-center w-full"
       >
         <input 
           {...register("title", {required: true})}
