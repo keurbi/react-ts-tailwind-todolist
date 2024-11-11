@@ -9,6 +9,8 @@ interface TasktodoInterface {
   title: string;
   index: number;
   difficulty: number;
+  indexOfFirstTask : number;
+  displayIndex : number;
 }
 
 export interface TasksProps {
@@ -17,6 +19,7 @@ export interface TasksProps {
 }
 
 const Tasks: FC<TasksProps> = ({ onTransmit, Pagination }) => {
+
   const [Tasktodo, setTasktodo] = useState<TasktodoInterface[]>([]);
   const [newTaskTitle, setNewTaskTitle] = useState("");
   const [newTaskDifficulty, setNewTaskDifficulty] = useState(1);
@@ -35,22 +38,17 @@ const Tasks: FC<TasksProps> = ({ onTransmit, Pagination }) => {
       setNewTaskTitle("");
       setNewTaskDifficulty(1);
     }
-  };
-
-  const completeTask = (displayIndex: number) => {
-    // calcule le vrai index
-    const realIndex = indexOfFirstTask + displayIndex;
-    const updatedTasks = [...Tasktodo];
-    const taskToTransmit = Tasktodo[realIndex];
-
-    // transmission de la tâche
-    onTransmit({
-      title: taskToTransmit.title,
-      difficulty: taskToTransmit.difficulty,
-    });
-    updatedTasks.splice(realIndex, 1);
-    setTasktodo(updatedTasks);
-  };
+  }
+  const handleTaskComplete = (taskId: number) => {
+    const taskToComplete = Tasktodo.find(task => task.index === taskId);
+    if (taskToComplete) {
+      onTransmit({
+        title: taskToComplete.title,
+        difficulty: taskToComplete.difficulty
+      });
+      setTasktodo(Tasktodo.filter(task => task.index !== taskId));
+    }
+  }
 
   return (
     <div className="w-6/12 h-full flex-nowrap bg-white rounded-lg border-transparent p-4 flex flex-col">
@@ -61,10 +59,10 @@ const Tasks: FC<TasksProps> = ({ onTransmit, Pagination }) => {
         newTaskDifficulty={newTaskDifficulty}
         newTaskTitle={newTaskTitle}
       />
-      <DisplayTasks Tasks={Tasktodo} />
+      <DisplayTasks Tasks={Tasktodo} onTaskComplete={handleTaskComplete}/>
       <Pagination />
     </div>
   );
-};
+}
 
 export default Tasks;
