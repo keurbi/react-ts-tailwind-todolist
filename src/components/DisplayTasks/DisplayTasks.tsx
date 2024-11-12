@@ -1,16 +1,12 @@
 import React, { FC } from "react";
+import { Task, TaskStatus } from "../../types/task.type";
 
 interface DisplayTasksProps {
-  tasks: {
-    todo: { title: string; difficulty: number; status: string }[];
-    pending: { title: string; difficulty: number; status: string }[];
-    done: { title: string; difficulty: number; status: string }[];
-  },
-  switchTask : (direction : string, switchedTask : {status : string}) => void;
-  // onTaskComplete: (value : number) => void;
+  tasks: Map<TaskStatus, Task[]>;
+  switchTask: (direction: string, switchedTask: Task) => void;
 }
 
-const DisplayTasks: FC<DisplayTasksProps> = ({ tasks }, switchTask) => (
+const DisplayTasks: FC<DisplayTasksProps> = ({ tasks, switchTask }) => (
   <div className="flex gap-4 flex-1">
     {["todo", "pending", "done"].map((status) => (
       <div
@@ -21,13 +17,15 @@ const DisplayTasks: FC<DisplayTasksProps> = ({ tasks }, switchTask) => (
           {status}
         </h3>
         <div className="overflow-y-auto flex-1 p-2">
-          {tasks[status as keyof typeof tasks].map((task, index) => (
+          {tasks.keys().map((key) => (
+            <h1>{tusEnum[key]}</h1>
+            tasks.get(key)?.map( array =>
             <div
-              key={index}
+              key={key}
               className="flex items-center p-1.5 bg-gray-50 rounded-lg hover:bg-gray-100 transition-colors text-sm mb-1 h-[30px]"
             >
               <span className="font-medium flex-1">{task.title}</span>
-              <button
+              {/* <button
                 onClick={() => switchTask("left", task)}
                 className="hover:bg-gray-200 p-1 rounded-full"
               >
@@ -38,7 +36,7 @@ const DisplayTasks: FC<DisplayTasksProps> = ({ tasks }, switchTask) => (
                 className="hover:bg-gray-200 p-1 rounded-full mx-1"
               >
                 ➡️
-              </button>
+              </button> */}
 
               <span>
                 {task.difficulty === 1
@@ -48,6 +46,7 @@ const DisplayTasks: FC<DisplayTasksProps> = ({ tasks }, switchTask) => (
                   : "🔴"}
               </span>
             </div>
+            )
           ))}
         </div>
       </div>

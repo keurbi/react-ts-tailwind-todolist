@@ -1,42 +1,44 @@
-import React, { FC, Fragment, useCallback, useState } from "react";
+import React, { FC, Fragment, useCallback, useEffect, useState } from "react";
 import Pagination from "../Pagination/Pagination";
 import DisplayTasks from "../DisplayTasks/DisplayTasks";
 import Header from "../Header/Header";
+import { Task, TaskStatus, TaskStatusEnum } from "../../types/task.type";
 
 interface ListProps {}
 
-type TaskStatus = "todo" | "pending" | "done";
-
-interface Task {
-  title: string;
-  difficulty: number;
-  status: TaskStatus;
-}
-
-interface TasksByStatus {
-  todo: Task[];
-  pending: Task[];
-  done: Task[];
+const initaliseMap = () => {
+  const newMap = new Map<TaskStatus, Task[]>();
+  (Object.keys(TaskStatusEnum) as TaskStatus[]).forEach(status => newMap.set(status, []));
+  return newMap;
 }
 
 const List: FC<ListProps> = () => {
+  const [tasks, setTasks] = useState<Map<TaskStatus, Task[]>>(initaliseMap());
 
-  const tasksStates = ["todo","pending","done"];
-  const [tasks, setTasks] = useState<TasksByStatus>({ todo: [], pending: [], done: [] });
 
-  const addTask = useCallback((taskData: { title: string; difficulty: number; status: string }) => {
-    setTasks(prevTasks => ({
-      ...prevTasks,
-      [taskData.status]: [...prevTasks[taskData.status as TaskStatus], taskData as Task]
-    }));
+  const addTask = useCallback((newTask: Task) => {
+    setTasks(prevTasks => {
+      prevTasks.get(newTask.status)?.push(newTask);
+      return prevTasks;
+    });
   }, []);
 
-  const switchTask = (direction: string, switchedTask: { status: string }) => {
-    //recup position actuelle, future dans statuts
-    const currentIndex = tasksStates.indexOf(switchedTask.status);//retourne index grâce à valeur
-    const newIndex = direction === "droite" ? currentIndex + 1 : currentIndex - 1;
+  // const switchTask = (direction: string, switchedTask: Task) => {
+  //   const currentIndex = tasksStates.indexOf(switchedTask.status);
+  //   const newIndex = direction === "droite" ? currentIndex + 1 : currentIndex - 1;
 
-  }
+  //   if (newIndex < 0 || newIndex > 2) {
+  //     return;
+  //   }
+  //   const currentStatus = tasksStates[currentIndex] as keyof TasksByStatus;
+  //   const newStatus = tasksStates[newIndex] as keyof TasksByStatus;
+
+  //   setTasks(prevTasks => ({
+  //     ...prevTasks,
+  //     [currentStatus]: prevTasks[currentStatus].filter(task => task !== switchedTask),
+  //     [newStatus]: [...prevTasks[newStatus], { ...switchedTask, status: newStatus }]
+  //   }));
+  // }
 
   return (
     <div className="container flex flex-col h-3/4 bg-slate-300 rounded-lg border-2 border-transparent shadow-[0_35px_60px_-15px_rgba(2,2,0,0.3)] p-2">
@@ -48,4 +50,7 @@ const List: FC<ListProps> = () => {
       <DisplayTasks tasks={tasks} switchTask={switchTask}/>
     </div>
   );
-};export default List;
+
+};
+
+export default List;
