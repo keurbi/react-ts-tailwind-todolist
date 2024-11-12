@@ -20,6 +20,7 @@ interface TasksByStatus {
 }
 
 const List: FC<ListProps> = () => {
+
   const tasksStates = ["todo","pending","done"];
   const [tasks, setTasks] = useState<TasksByStatus>({ todo: [], pending: [], done: [] });
 
@@ -30,6 +31,13 @@ const List: FC<ListProps> = () => {
     }));
   }, []);
 
+  const switchTask = (direction: string, switchedTask: { status: string }) => {
+    //recup position actuelle, future dans statuts
+    const currentIndex = tasksStates.indexOf(switchedTask.status);//retourne index grâce à valeur
+    const newIndex = direction === "droite" ? currentIndex + 1 : currentIndex - 1;
+
+  }
+
   return (
     <div className="container flex flex-col h-3/4 bg-slate-300 rounded-lg border-2 border-transparent shadow-[0_35px_60px_-15px_rgba(2,2,0,0.3)] p-2">
       <h1 className="h-[10%] font-mono text-4xl text-center underline decoration-pink-500 tracking-widest animate-slidein">
@@ -37,8 +45,7 @@ const List: FC<ListProps> = () => {
         <span className="animate-pulse font-bold">NOW</span>
       </h1>
       <Header addTask={addTask}/>
-       {/* <DisplayTasks/> */}
+      <DisplayTasks tasks={tasks} switchTask={switchTask}/>
     </div>
   );
-};
-export default List;
+};export default List;
