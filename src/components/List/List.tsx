@@ -19,8 +19,10 @@ const List: FC<ListProps> = () => {
 
   const addTask = useCallback((newTask: Task) => {
     setTasks((prevTasks) => {
-      prevTasks.get(newTask.status)?.push(newTask);
-      return prevTasks;
+      const newMap = new Map(prevTasks);
+      const currentTasks = [...(newMap.get(newTask.status) || []), newTask];
+      newMap.set(newTask.status, currentTasks);
+      return newMap;
     });
   }, []);
 
@@ -29,7 +31,7 @@ const List: FC<ListProps> = () => {
       switchedTask.status
     );
 
-    const newIndex = direction === "droite" ? currentIndex + 1 : currentIndex - 1;
+    const newIndex = direction === "right" ? currentIndex + 1 : currentIndex - 1;
     if (newIndex < 0 || newIndex > 2) {
       return;
     }

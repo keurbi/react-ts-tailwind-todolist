@@ -1,7 +1,7 @@
 export enum TaskStatusEnum {
-    TODO="To Do",
-    PENDING="Pending",
-    DONE="Done"
+    TODO = "TODO",
+    PENDING = "PENDING",
+    DONE = "DONE"
 }
 
 export type TaskStatus = keyof typeof TaskStatusEnum;
