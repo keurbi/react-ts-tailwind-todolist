@@ -1,5 +1,4 @@
 import React, { FC, Fragment, useCallback, useEffect, useState } from "react";
-import Pagination from "../Pagination/Pagination";
 import DisplayTasks from "../DisplayTasks/DisplayTasks";
 import Header from "../Header/Header";
 import { Task, TaskStatus, TaskStatusEnum } from "../../types/task.type";
