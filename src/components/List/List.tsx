@@ -8,37 +8,49 @@ interface ListProps {}
 
 const initaliseMap = () => {
   const newMap = new Map<TaskStatus, Task[]>();
-  (Object.keys(TaskStatusEnum) as TaskStatus[]).forEach(status => newMap.set(status, []));
+  (Object.keys(TaskStatusEnum) as TaskStatus[]).forEach((status) =>
+    newMap.set(status, [])
+  );
   return newMap;
-}
+};
 
 const List: FC<ListProps> = () => {
   const [tasks, setTasks] = useState<Map<TaskStatus, Task[]>>(initaliseMap());
 
-
   const addTask = useCallback((newTask: Task) => {
-    setTasks(prevTasks => {
+    setTasks((prevTasks) => {
       prevTasks.get(newTask.status)?.push(newTask);
       return prevTasks;
     });
   }, []);
 
-  // const switchTask = (direction: string, switchedTask: Task) => {
-  //   const currentIndex = tasksStates.indexOf(switchedTask.status);
-  //   const newIndex = direction === "droite" ? currentIndex + 1 : currentIndex - 1;
+  const switchTask = (direction: string, switchedTask: Task) => {
+    const currentIndex = Object.keys(TaskStatusEnum).indexOf(
+      switchedTask.status
+    );
 
-  //   if (newIndex < 0 || newIndex > 2) {
-  //     return;
-  //   }
-  //   const currentStatus = tasksStates[currentIndex] as keyof TasksByStatus;
-  //   const newStatus = tasksStates[newIndex] as keyof TasksByStatus;
+    const newIndex = direction === "droite" ? currentIndex + 1 : currentIndex - 1;
+    if (newIndex < 0 || newIndex > 2) {
+      return;
+    }
+    const currentStatus = Object.keys(TaskStatusEnum)[currentIndex] as keyof TaskStatus;
+    const newStatus = Object.keys(TaskStatusEnum)[newIndex] as keyof TaskStatus;
 
-  //   setTasks(prevTasks => ({
-  //     ...prevTasks,
-  //     [currentStatus]: prevTasks[currentStatus].filter(task => task !== switchedTask),
-  //     [newStatus]: [...prevTasks[newStatus], { ...switchedTask, status: newStatus }]
-  //   }));
-  // }
+    setTasks((prevTasks) => {
+      const newMap = new Map(prevTasks);
+      // récup + filtre le tableau source pour enlever la tâche
+      const currentTasks = newMap.get(currentStatus as TaskStatus)?.filter((task) => task !== switchedTask) || [];
+        // récup tableau final et ajouté tache
+      const targetTasks = [...(newMap.get(newStatus as TaskStatus) || []), 
+      { ...switchedTask, status: newStatus as TaskStatus }
+      ];
+      // maj des deux tabs des statuts
+      newMap.set(currentStatus as TaskStatus, currentTasks);
+      newMap.set(newStatus as TaskStatus, targetTasks);
+
+      return newMap;
+    });
+  };
 
   return (
     <div className="container flex flex-col h-3/4 bg-slate-300 rounded-lg border-2 border-transparent shadow-[0_35px_60px_-15px_rgba(2,2,0,0.3)] p-2">
@@ -46,11 +58,10 @@ const List: FC<ListProps> = () => {
         Make ur tasks:
         <span className="animate-pulse font-bold">NOW</span>
       </h1>
-      <Header addTask={addTask}/>
-      <DisplayTasks tasks={tasks} switchTask={switchTask}/>
+      <Header addTask={addTask} />
+      <DisplayTasks tasks={tasks} switchTask={switchTask} />
     </div>
   );
-
 };
 
 export default List;

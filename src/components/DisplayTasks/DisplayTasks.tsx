@@ -1,5 +1,5 @@
 import React, { FC } from "react";
-import { Task, TaskStatus } from "../../types/task.type";
+import { Task, TaskStatus, TaskStatusEnum } from "../../types/task.type";
 
 interface DisplayTasksProps {
   tasks: Map<TaskStatus, Task[]>;
@@ -17,15 +17,13 @@ const DisplayTasks: FC<DisplayTasksProps> = ({ tasks, switchTask }) => (
           {status}
         </h3>
         <div className="overflow-y-auto flex-1 p-2">
-          {tasks.keys().map((key) => (
-            <h1>{tusEnum[key]}</h1>
-            tasks.get(key)?.map( array =>
+          {tasks.get(status.toUpperCase() as TaskStatus)?.map((task) => (
             <div
-              key={key}
+              key={task.title}
               className="flex items-center p-1.5 bg-gray-50 rounded-lg hover:bg-gray-100 transition-colors text-sm mb-1 h-[30px]"
             >
               <span className="font-medium flex-1">{task.title}</span>
-              {/* <button
+              <button
                 onClick={() => switchTask("left", task)}
                 className="hover:bg-gray-200 p-1 rounded-full"
               >
@@ -36,8 +34,7 @@ const DisplayTasks: FC<DisplayTasksProps> = ({ tasks, switchTask }) => (
                 className="hover:bg-gray-200 p-1 rounded-full mx-1"
               >
                 ➡️
-              </button> */}
-
+              </button>
               <span>
                 {task.difficulty === 1
                   ? "🟢"
@@ -46,7 +43,6 @@ const DisplayTasks: FC<DisplayTasksProps> = ({ tasks, switchTask }) => (
                   : "🔴"}
               </span>
             </div>
-            )
           ))}
         </div>
       </div>
